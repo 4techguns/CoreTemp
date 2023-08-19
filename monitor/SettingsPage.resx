@@ -117,4 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>24, 12</value>
+  </metadata>
+  <data name="TrayIconToggle.ToolTip" xml:space="preserve">
+    <value>Enables the icon that appears in the system tray.
+The behaviour of the close button will be different depending on if this setting is enabled or not:
+- On: When the close button is pressed, the program will be hidden and can be re-opened using the tray icon.
+- Off: When the close button is pressed, the program will close fully.</value>
+  </data>
+  <metadata name="colorDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>121, 12</value>
+  </metadata>
 </root>

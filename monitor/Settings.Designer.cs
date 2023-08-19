@@ -82,5 +82,65 @@ namespace monitor {
                 this["AcknowledgedSystemTrayIcon"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableNotifications {
+            get {
+                return ((bool)(this["EnableNotifications"]));
+            }
+            set {
+                this["EnableNotifications"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableTrayIcon {
+            get {
+                return ((bool)(this["EnableTrayIcon"]));
+            }
+            set {
+                this["EnableTrayIcon"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableWarningIndicators {
+            get {
+                return ((bool)(this["EnableWarningIndicators"]));
+            }
+            set {
+                this["EnableWarningIndicators"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("(First Sensor)")]
+        public string SensorToMeasure {
+            get {
+                return ((string)(this["SensorToMeasure"]));
+            }
+            set {
+                this["SensorToMeasure"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Vertical")]
+        public string TrayTheme {
+            get {
+                return ((string)(this["TrayTheme"]));
+            }
+            set {
+                this["TrayTheme"] = value;
+            }
+        }
     }
 }

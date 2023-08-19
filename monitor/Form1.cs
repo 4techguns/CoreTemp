@@ -14,7 +14,7 @@ namespace monitor
 {
     public partial class Form1 : Form
     {
-        private readonly Computer _computer;
+        public static Computer _computer;
         private bool _warningTripped = false;
         private bool _critTripped = false;
         private Form s;
@@ -24,17 +24,12 @@ namespace monitor
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         extern static bool DestroyIcon(IntPtr handle);
-        [DllImport("kernel32")]
-        extern static UInt64 GetTickCount64();
         public Form1()
         {
             s = new SettingsPage();
             InitializeComponent();
 
-            _computer = new Computer
-            {
-                IsCpuEnabled = true
-            };
+            _computer = GlobalComputer.Computer;
             _computer.Open();
 
             RefreshTimer.Interval = Settings.Default.UpdateInterval;
@@ -44,14 +39,17 @@ namespace monitor
             RefreshTimer.Tick += TimerRefresh;
             FormClosing += (_, e) =>
             {
-                Hide();
-                if (!Settings.Default.AcknowledgedSystemTrayIcon)
+                if (Settings.Default.EnableTrayIcon)
                 {
-                    notifyIcon1.ShowBalloonTip(5, "Minimised to Tray", "CoreTemp is automatically minimised to the system tray when you close it. To quit, right-click the icon and click Exit.", ToolTipIcon.Info);
-                    Settings.Default.AcknowledgedSystemTrayIcon = true;
-                    Settings.Default.Save();
+                    Hide();
+                    if (!Settings.Default.AcknowledgedSystemTrayIcon)
+                    {
+                        notifyIcon1.ShowBalloonTip(5, "Minimised to Tray", "CoreTemp is automatically minimised to the system tray when you close it. To quit, right-click the icon and click Exit.", ToolTipIcon.Info);
+                        Settings.Default.AcknowledgedSystemTrayIcon = true;
+                        Settings.Default.Save();
+                    }
+                    e.Cancel = true;
                 }
-                e.Cancel = true;
             };
             exitToolStripMenuItem.Click += (_, _) => Environment.Exit(0);
             SettingsButton.Click += (_, _) =>
@@ -85,6 +83,22 @@ namespace monitor
         {
             _computer.Accept(new UpdateVisitor());
             var sensor = _computer.Hardware[0].Sensors.First(s => s.SensorType == SensorType.Temperature);
+            try
+            {
+                if (Settings.Default.SensorToMeasure != "(First Sensor)")
+                    sensor = _computer.Hardware[0].Sensors.First(s => s.SensorType == SensorType.Temperature && s.Name == Settings.Default.SensorToMeasure);
+            } catch (Exception e)
+            {
+                RefreshTimer.Stop();
+                var res = MessageBox.Show($"Could not read from sensor \"{Settings.Default.SensorToMeasure}\". Would you like to reset settings to defaults and exit?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                if (res == DialogResult.Yes)
+                {
+                    Settings.Default.Reset();
+                    Environment.Exit(0);
+                }
+                else RefreshTimer.Start();
+                
+            }
             var _tempColor = sensor.Value switch
             {
                 > 100 => Color.Purple,
@@ -132,58 +146,128 @@ namespace monitor
             tempBar.Value = (int)sensor.Value;
             TemperatureStatus.BackColor = _tempColor;
 
-            unsafe
+            if (Settings.Default.EnableTrayIcon)
             {
-                using (Bitmap bmp = new Bitmap(16, 16))
+                notifyIcon1.Visible = true;
+                unsafe
                 {
-                    using (Graphics g = Graphics.FromImage(bmp))
+                    using (Bitmap bmp = new Bitmap(16, 16))
                     {
-                        g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), new Rectangle(new Point(14, 2), new Size(1, 12)));
-                        g.DrawRectangle(new Pen(new SolidBrush(Color.White)), new Rectangle(new Point(14, 2), new Size(1, 12 - (int)((sensor.Value / 100) * 12))));
-                        g.DrawString(Math.Round((double)sensor.Value).ToString(), new Font(FontFamily.GenericSansSerif, 8), new SolidBrush(_tempColor), new PointF(-2, 4));
-                        if (_critTripped) g.DrawImage(Resources.critical, new RectangleF(0, 0, 8, 8));
-                        else if (_warningTripped) g.DrawImage(Resources.warning, new RectangleF(0, 0, 8, 8));
-                        g.Dispose();
+                        using (Graphics g = Graphics.FromImage(bmp))
+                        {
+                            switch (Settings.Default.TrayTheme)
+                            {
+                                case "Vertical":
+                                    g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), new Rectangle(new Point(14, 2), new Size(1, 12)));
+                                    g.DrawRectangle(new Pen(new SolidBrush(Color.White)), new Rectangle(new Point(14, 2), new Size(1, 12 - (int)((sensor.Value / 100) * 12))));
+                                    g.DrawString(Math.Round((double)sensor.Value).ToString(), new Font(FontFamily.GenericMonospace, 8), new SolidBrush(_tempColor), new PointF(-2, 4));
+                                    if (_critTripped) g.DrawImage(Resources.critical, new RectangleF(0, 0, 8, 8));
+                                    else if (_warningTripped) g.DrawImage(Resources.warning, new RectangleF(0, 0, 8, 8));
+                                    break;
+                                case "Vertical Light":
+                                    g.DrawRectangle(new Pen(new SolidBrush(Color.Red)), new Rectangle(new Point(14, 2), new Size(1, 12)));
+                                    g.DrawRectangle(new Pen(new SolidBrush(Color.Black)), new Rectangle(new Point(14, 2), new Size(1, 12 - (int)((sensor.Value / 100) * 12))));
+                                    g.DrawString(Math.Round((double)sensor.Value).ToString(), new Font(FontFamily.GenericMonospace, 8), new SolidBrush(Color.Black), new PointF(-2, 4));
+                                    if (_critTripped) g.DrawImage(Resources.critical, new RectangleF(0, 0, 8, 8));
+                                    else if (_warningTripped) g.DrawImage(Resources.warning, new RectangleF(0, 0, 8, 8));
+                                    break;
+                                case "Horizontal":
+                                    g.DrawString(Math.Round((double)sensor.Value).ToString(), new Font(FontFamily.GenericMonospace, 8), new SolidBrush(_tempColor), new PointF(-3, 0));
+                                    g.FillRectangle(new SolidBrush(Color.White), new Rectangle(new Point(0, 13), new Size(15, 2)));
+                                    g.FillRectangle(new SolidBrush(Color.Red), new Rectangle(new Point(0, 13), new Size((int)((sensor.Value / 100) * 15), 2)));
+                                    if (_critTripped) g.DrawImage(Resources.critical, new RectangleF(10, 6, 6, 6));
+                                    else if (_warningTripped) g.DrawImage(Resources.warning, new RectangleF(10, 6, 6, 6));
+                                    break;
+                                case "Horizontal Light":
+                                    g.DrawString(Math.Round((double)sensor.Value).ToString(), new Font(FontFamily.GenericMonospace, 8), new SolidBrush(Color.Black), new PointF(-3, 0));
+                                    g.FillRectangle(new SolidBrush(Color.Black), new Rectangle(new Point(0, 13), new Size(15, 2)));
+                                    g.FillRectangle(new SolidBrush(Color.Red), new Rectangle(new Point(0, 13), new Size((int)((sensor.Value / 100) * 15), 2)));
+                                    if (_critTripped) g.DrawImage(Resources.critical, new RectangleF(10, 6, 6, 6));
+                                    else if (_warningTripped) g.DrawImage(Resources.warning, new RectangleF(10, 6, 6, 6));
+                                    break;
+                                case "Combined":
+                                    g.FillRectangle(new SolidBrush(Color.Red), new Rectangle(new Point(0, 0), new Size(16, 16)));
+                                    g.FillRectangle(new SolidBrush(Color.White), new Rectangle(new Point(0, 0), new Size(16, 16 - (int)((sensor.Value / 100) * 16))));
+                                    g.DrawString(Math.Round((double)sensor.Value).ToString(), new Font(FontFamily.GenericMonospace, 8), new SolidBrush(Color.Black), new PointF(0, 2));
+                                    if (_critTripped) g.DrawImage(Resources.critical, new RectangleF(0, 10, 6, 6));
+                                    else if (_warningTripped) g.DrawImage(Resources.warning, new RectangleF(0, 10, 6, 6));
+                                    break;
+                                case "Combined Light":
+                                    g.FillRectangle(new SolidBrush(Color.Red), new Rectangle(new Point(0, 0), new Size(16, 16)));
+                                    g.FillRectangle(new SolidBrush(Color.Black), new Rectangle(new Point(0, 0), new Size(16, 16 - (int)((sensor.Value / 100) * 16))));
+                                    g.DrawString(Math.Round((double)sensor.Value).ToString(), new Font(FontFamily.GenericMonospace, 8), new SolidBrush(Color.White), new PointF(0, 2));
+                                    if (_critTripped) g.DrawImage(Resources.critical, new RectangleF(0, 10, 6, 6));
+                                    else if (_warningTripped) g.DrawImage(Resources.warning, new RectangleF(0, 10, 6, 6));
+                                    break;
+                                case "Text":
+                                    g.DrawString(Math.Round((double)sensor.Value).ToString(), new Font(FontFamily.GenericMonospace, 8), new SolidBrush(_tempColor), new PointF(0, 2));
+                                    if (_critTripped) g.DrawImage(Resources.critical, new RectangleF(0, 0, 6, 6));
+                                    else if (_warningTripped) g.DrawImage(Resources.warning, new RectangleF(0, 0, 6, 6));
+                                    break;
+                                case "Text Light":
+                                    g.DrawString(Math.Round((double)sensor.Value).ToString(), new Font(FontFamily.GenericMonospace, 8), new SolidBrush(Color.Black), new PointF(0, 2));
+                                    if (_critTripped) g.DrawImage(Resources.critical, new RectangleF(0, 0, 6, 6));
+                                    else if (_warningTripped) g.DrawImage(Resources.warning, new RectangleF(0, 0, 6, 6));
+                                    break;
+                                case "Icon":
+                                    g.DrawImage(Resources.poorcpu, new Rectangle(0, 0, 16, 16));
+                                    if (_critTripped) g.DrawImage(Resources.critical, new RectangleF(0, 0, 6, 6));
+                                    else if (_warningTripped) g.DrawImage(Resources.warning, new RectangleF(0, 0, 6, 6));
+                                    break;
+                                default:
+                                    g.DrawString("??", new Font(FontFamily.GenericMonospace, 8), new SolidBrush(Color.White), new PointF(0, 0));
+                                    break;
+                            }
+                            g.Dispose();
+                        }
+                        IntPtr hicon = bmp.GetHicon();
+                        Icon icon = Icon.FromHandle(hicon);
+                        notifyIcon1.Icon = icon;
+                        notifyIcon1.Text = $"{sensor.Name}: {sensor.Value}°";
+                        icon.Dispose();
+                        DestroyIcon(hicon); // destroy icon to prevent creating 50 billion dead handles
                     }
-                    IntPtr hicon = bmp.GetHicon();
-                    Icon icon = Icon.FromHandle(hicon);
-                    notifyIcon1.Icon = icon;
-                    notifyIcon1.Text = $"{sensor.Name}: {sensor.Value}°";
-                    icon.Dispose();
-                    DestroyIcon(hicon); // destroy icon to prevent creating 50 billion dead handles
                 }
+            } else
+            {
+                notifyIcon1.Visible = false;
             }
 
-            if (sensor.Value > Settings.Default.WarningTemperature)
+            if (Settings.Default.EnableWarningIndicators)
             {
-                if (sensor.Value > Settings.Default.CriticalTemperature)
+                if (sensor.Value > Settings.Default.WarningTemperature)
                 {
-                    if (!_critTripped)
+                    if (sensor.Value > Settings.Default.CriticalTemperature)
                     {
-                        notifyIcon1.ShowBalloonTip(10, "Warning!!!", $"Temperature exceeded critical threshold ({Settings.Default.CriticalTemperature}℃)", ToolTipIcon.Error);
-                        SendMessage(tempBar.Handle, 1040, (IntPtr)2, IntPtr.Zero); // ugly ahh hack but it works
-                        CritIcon.Enabled = true;
-                        _critTripped = true;
+                        if (!_critTripped)
+                        {
+                            if (Settings.Default.EnableNotifications)
+                                notifyIcon1.ShowBalloonTip(10, "Warning!!!", $"Temperature exceeded critical threshold ({Settings.Default.CriticalTemperature}℃)", ToolTipIcon.Error);
+                            SendMessage(tempBar.Handle, 1040, (IntPtr)2, IntPtr.Zero); // ugly ahh hack but it works
+                            CritIcon.Enabled = true;
+                            _critTripped = true;
+                        }
+                    }
+                    else
+                    {
+                        _critTripped = false;
+                        CritIcon.Enabled = false;
+                        if (!_warningTripped)
+                        {
+                            if (Settings.Default.EnableNotifications)
+                                notifyIcon1.ShowBalloonTip(10, "Warning!", $"Temperature exceeded warning threshold ({Settings.Default.WarningTemperature}℃)", ToolTipIcon.Warning);
+                            WarnIcon.Enabled = true;
+                            SendMessage(tempBar.Handle, 1040, (IntPtr)3, IntPtr.Zero); // ugly ahh hack but it works
+                            _warningTripped = true;
+                        }
                     }
                 }
                 else
                 {
-                    _critTripped = false;
-                    CritIcon.Enabled = false;
-                    if (!_warningTripped)
-                    {
-                        notifyIcon1.ShowBalloonTip(10, "Warning!", $"Temperature exceeded warning threshold ({Settings.Default.WarningTemperature}℃)", ToolTipIcon.Warning);
-                        WarnIcon.Enabled = true;
-                        SendMessage(tempBar.Handle, 1040, (IntPtr)3, IntPtr.Zero); // ugly ahh hack but it works
-                        _warningTripped = true;
-                    }
+                    SendMessage(tempBar.Handle, 1040, (IntPtr)1, IntPtr.Zero);
+                    WarnIcon.Enabled = false;
+                    _warningTripped = false;
                 }
-            }
-            else
-            {
-                SendMessage(tempBar.Handle, 1040, (IntPtr)1, IntPtr.Zero);
-                WarnIcon.Enabled = false;
-                _warningTripped = false;
             }
 
             int p = chart1.Series[0].Points.AddY(sensor.Value);
@@ -191,18 +275,5 @@ namespace monitor
         }
     }
 
-    public class UpdateVisitor : IVisitor
-    {
-        public void VisitComputer(IComputer computer)
-        {
-            computer.Traverse(this);
-        }
-        public void VisitHardware(IHardware hardware)
-        {
-            hardware.Update();
-            foreach (IHardware subHardware in hardware.SubHardware) subHardware.Accept(this);
-        }
-        public void VisitSensor(ISensor sensor) { }
-        public void VisitParameter(IParameter parameter) { }
-    }
+    
 }

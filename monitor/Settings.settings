@@ -17,5 +17,20 @@
     <Setting Name="AcknowledgedSystemTrayIcon" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="EnableNotifications" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="EnableTrayIcon" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="EnableWarningIndicators" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SensorToMeasure" Type="System.String" Scope="User">
+      <Value Profile="(Default)">(First Sensor)</Value>
+    </Setting>
+    <Setting Name="TrayTheme" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Vertical</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
