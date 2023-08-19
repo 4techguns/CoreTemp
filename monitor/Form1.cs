@@ -87,7 +87,8 @@ namespace monitor
             {
                 if (Settings.Default.SensorToMeasure != "(First Sensor)")
                     sensor = _computer.Hardware[0].Sensors.First(s => s.SensorType == SensorType.Temperature && s.Name == Settings.Default.SensorToMeasure);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 RefreshTimer.Stop();
                 var res = MessageBox.Show($"Could not read from sensor \"{Settings.Default.SensorToMeasure}\". Would you like to reset settings to defaults and exit?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
@@ -97,7 +98,7 @@ namespace monitor
                     Environment.Exit(0);
                 }
                 else RefreshTimer.Start();
-                
+
             }
             var _tempColor = sensor.Value switch
             {
@@ -228,7 +229,8 @@ namespace monitor
                         DestroyIcon(hicon); // destroy icon to prevent creating 50 billion dead handles
                     }
                 }
-            } else
+            }
+            else
             {
                 notifyIcon1.Visible = false;
             }
@@ -275,5 +277,5 @@ namespace monitor
         }
     }
 
-    
+
 }

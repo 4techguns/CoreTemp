@@ -97,20 +97,20 @@
             // 
             TrayContextMenu.Items.AddRange(new ToolStripItem[] { coreTempAlphaV1ToolStripMenuItem, exitToolStripMenuItem });
             TrayContextMenu.Name = "TrayContextMenu";
-            TrayContextMenu.Size = new Size(178, 48);
+            TrayContextMenu.Size = new Size(181, 70);
             // 
             // coreTempAlphaV1ToolStripMenuItem
             // 
             coreTempAlphaV1ToolStripMenuItem.Enabled = false;
             coreTempAlphaV1ToolStripMenuItem.Name = "coreTempAlphaV1ToolStripMenuItem";
-            coreTempAlphaV1ToolStripMenuItem.Size = new Size(177, 22);
-            coreTempAlphaV1ToolStripMenuItem.Text = "CoreTemp Alpha v1";
+            coreTempAlphaV1ToolStripMenuItem.Size = new Size(180, 22);
+            coreTempAlphaV1ToolStripMenuItem.Text = "CoreTemp Alpha v2";
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Image = Properties.Resources.cross;
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(177, 22);
+            exitToolStripMenuItem.Size = new Size(180, 22);
             exitToolStripMenuItem.Text = "Exit";
             // 
             // HardwareNameLabel
