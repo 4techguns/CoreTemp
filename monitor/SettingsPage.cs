@@ -20,13 +20,15 @@ namespace monitor
 
             GlobalComputer.Computer.Open();
             GlobalComputer.Computer.Accept(new UpdateVisitor());
-            var tempSensors = GlobalComputer.Computer.Hardware[0].Sensors.Where(s => s.SensorType == SensorType.Temperature);
-            SensorPicker.Items.Clear();
-            SensorPicker.Items.Add("(First Sensor)");
-            foreach (ISensor sensor in tempSensors)
-            {
-                SensorPicker.Items.Add(sensor.Name);
-            }
+
+            var hw = GlobalComputer.Computer.Hardware.Where(j =>
+                j.Sensors.Where(s => s.SensorType == SensorType.Temperature).Count() > 0);
+            DevicePicker.Items.Clear();
+            DevicePicker.Items.Add("(First CPU)");
+            foreach (IHardware h in hw)
+                DevicePicker.Items.Add(h.Name);
+
+            RefreshSensors();
 
             ReloadSettings();
 
@@ -43,10 +45,21 @@ namespace monitor
             WarningIndicatorsToggle.CheckedChanged += WarningIndicatorsToggle_CheckedChanged;
             SensorPicker.SelectedValueChanged += SensorPicker_SelectedValueChanged;
             IconThemePicker.SelectedValueChanged += IconThemePicker_SelectedValueChanged;
+            DevicePicker.SelectedValueChanged += DevicePicker_SelectedValueChanged;
 
             SaveButton.Click += SaveButton_Click;
             ResetDefaultsButton.Click += ResetDefaultsButton_Click;
 
+        }
+
+        private void DevicePicker_SelectedValueChanged(object? sender, EventArgs e)
+        {
+            Settings.Default.DeviceToMeasure = (string)DevicePicker.SelectedItem;
+        }
+
+        private void GraphResolutionField_ValueChanged(object? sender, EventArgs e)
+        {
+            Settings.Default.GraphResolution = (int)GraphResolutionField.Value;
         }
 
         private void IconThemePicker_SelectedValueChanged(object? sender, EventArgs e)
@@ -80,14 +93,34 @@ namespace monitor
             WarningIndicatorsToggle.Checked = Settings.Default.EnableWarningIndicators;
             SensorPicker.SelectedItem = Settings.Default.SensorToMeasure;
             IconThemePicker.SelectedItem = Settings.Default.TrayTheme;
+            DevicePicker.SelectedItem = Settings.Default.DeviceToMeasure;
 
             WarnThresholdField.Enabled = WarningIndicatorsToggle.Checked;
             WarningThresholdSlider.Enabled = WarningIndicatorsToggle.Checked;
             CritThresholdField.Enabled = WarningIndicatorsToggle.Checked;
             CritThresholdSlider.Enabled = WarningIndicatorsToggle.Checked;
 
+            IconThemePicker.Enabled = TrayIconToggle.Checked;
+
             if (!WarningIndicatorsToggle.Checked)
                 NotificationToggle.Checked = false;
+        }
+
+        private void RefreshSensors()
+        {
+            var hw = GlobalComputer.Computer.Hardware;
+            IHardware? n = null;
+            if (Settings.Default.DeviceToMeasure == "(First CPU)")
+                n = hw.First(w => w.HardwareType == HardwareType.Cpu);
+            else
+                n = hw.First(w => w.Name == Settings.Default.DeviceToMeasure
+                && w.Sensors.Where(s => s.SensorType == SensorType.Temperature).Count() > 0);
+            var tempSensors = n.Sensors.Where(s => s.SensorType == SensorType.Temperature);
+
+            SensorPicker.Items.Clear();
+            SensorPicker.Items.Add("(First Sensor)");
+            foreach (ISensor sensor in tempSensors)
+                SensorPicker.Items.Add(sensor.Name);
         }
 
         private void SensorPicker_SelectedValueChanged(object? sender, EventArgs e)
@@ -112,6 +145,7 @@ namespace monitor
         private void TrayIconToggle_CheckedChanged(object? sender, EventArgs e)
         {
             Settings.Default.EnableTrayIcon = TrayIconToggle.Checked;
+            IconThemePicker.Enabled = TrayIconToggle.Checked;
         }
 
         private void NotificationToggle_CheckedChanged(object? sender, EventArgs e)
@@ -150,11 +184,6 @@ namespace monitor
         {
             Settings.Default.WarningTemperature = (double)WarnThresholdField.Value;
             WarningThresholdSlider.Value = (int)WarnThresholdField.Value;
-        }
-
-        private void GraphResolutionField_ValueChanged(object? sender, EventArgs e)
-        {
-            Settings.Default.GraphResolution = (int)GraphResolutionField.Value;
         }
     }
 }

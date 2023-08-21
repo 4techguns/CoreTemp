@@ -54,7 +54,10 @@
             label7 = new Label();
             label4 = new Label();
             toolTip1 = new ToolTip(components);
+            label8 = new Label();
+            DevicePicker = new ComboBox();
             colorDialog1 = new ColorDialog();
+            groupBox1 = new GroupBox();
             ((System.ComponentModel.ISupportInitialize)GraphResolutionField).BeginInit();
             ((System.ComponentModel.ISupportInitialize)WarnThresholdField).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CritThresholdField).BeginInit();
@@ -64,23 +67,24 @@
             ((System.ComponentModel.ISupportInitialize)WarningThresholdSlider).BeginInit();
             MeasurementSettingsGroup.SuspendLayout();
             TrayIconSettingsGroup.SuspendLayout();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // GraphResolutionField
             // 
-            GraphResolutionField.Location = new Point(377, 42);
+            GraphResolutionField.Location = new Point(235, 42);
             GraphResolutionField.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
-            GraphResolutionField.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            GraphResolutionField.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
             GraphResolutionField.Name = "GraphResolutionField";
             GraphResolutionField.Size = new Size(131, 23);
             GraphResolutionField.TabIndex = 0;
             toolTip1.SetToolTip(GraphResolutionField, "How much data points are allowed on the temperature graph");
-            GraphResolutionField.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            GraphResolutionField.Value = new decimal(new int[] { 25, 0, 0, 0 });
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(393, 25);
+            label1.Location = new Point(251, 25);
             label1.Name = "label1";
             label1.Size = new Size(98, 15);
             label1.TabIndex = 1;
@@ -106,6 +110,7 @@
             WarnThresholdField.Size = new Size(62, 23);
             WarnThresholdField.TabIndex = 3;
             toolTip1.SetToolTip(WarnThresholdField, "The temperature at which a warning message will be shown.");
+            WarnThresholdField.ValueChanged += WarnThresholdField_ValueChanged;
             // 
             // CritThresholdField
             // 
@@ -139,7 +144,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(14, 24);
+            label5.Location = new Point(20, 24);
             label5.Name = "label5";
             label5.Size = new Size(164, 15);
             label5.TabIndex = 9;
@@ -148,8 +153,9 @@
             // 
             // UpdateIntervalField
             // 
-            UpdateIntervalField.Location = new Point(32, 42);
+            UpdateIntervalField.Location = new Point(38, 42);
             UpdateIntervalField.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            UpdateIntervalField.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             UpdateIntervalField.Name = "UpdateIntervalField";
             UpdateIntervalField.Size = new Size(131, 23);
             UpdateIntervalField.TabIndex = 10;
@@ -231,23 +237,21 @@
             TrayIconToggle.AutoSize = true;
             TrayIconToggle.Location = new Point(10, 22);
             TrayIconToggle.Name = "TrayIconToggle";
-            TrayIconToggle.Size = new Size(111, 19);
+            TrayIconToggle.Size = new Size(61, 19);
             TrayIconToggle.TabIndex = 7;
-            TrayIconToggle.Text = "Enable Tray Icon";
+            TrayIconToggle.Text = "Enable";
             toolTip1.SetToolTip(TrayIconToggle, resources.GetString("TrayIconToggle.ToolTip"));
             TrayIconToggle.UseVisualStyleBackColor = true;
             // 
             // MeasurementSettingsGroup
             // 
-            MeasurementSettingsGroup.Controls.Add(label6);
-            MeasurementSettingsGroup.Controls.Add(SensorPicker);
             MeasurementSettingsGroup.Controls.Add(label1);
             MeasurementSettingsGroup.Controls.Add(GraphResolutionField);
             MeasurementSettingsGroup.Controls.Add(label5);
             MeasurementSettingsGroup.Controls.Add(UpdateIntervalField);
             MeasurementSettingsGroup.Location = new Point(12, 12);
             MeasurementSettingsGroup.Name = "MeasurementSettingsGroup";
-            MeasurementSettingsGroup.Size = new Size(514, 76);
+            MeasurementSettingsGroup.Size = new Size(387, 76);
             MeasurementSettingsGroup.TabIndex = 14;
             MeasurementSettingsGroup.TabStop = false;
             MeasurementSettingsGroup.Text = "Measurement Settings";
@@ -255,12 +259,12 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(254, 24);
+            label6.Location = new Point(6, 58);
             label6.Name = "label6";
             label6.Size = new Size(42, 15);
             label6.TabIndex = 12;
             label6.Text = "Sensor";
-            toolTip1.SetToolTip(label6, "What CPU sensor the program should measure");
+            toolTip1.SetToolTip(label6, "What device sensor the program should measure");
             // 
             // SensorPicker
             // 
@@ -268,12 +272,12 @@
             SensorPicker.AutoCompleteSource = AutoCompleteSource.ListItems;
             SensorPicker.FormattingEnabled = true;
             SensorPicker.Items.AddRange(new object[] { "(First Sensor)" });
-            SensorPicker.Location = new Point(215, 42);
+            SensorPicker.Location = new Point(51, 54);
             SensorPicker.MaxDropDownItems = 32;
             SensorPicker.Name = "SensorPicker";
             SensorPicker.Size = new Size(121, 23);
             SensorPicker.TabIndex = 11;
-            toolTip1.SetToolTip(SensorPicker, "What CPU sensor the program should measure");
+            toolTip1.SetToolTip(SensorPicker, "What device sensor the program should measure");
             // 
             // TrayIconSettingsGroup
             // 
@@ -282,10 +286,10 @@
             TrayIconSettingsGroup.Controls.Add(TrayIconToggle);
             TrayIconSettingsGroup.Location = new Point(217, 94);
             TrayIconSettingsGroup.Name = "TrayIconSettingsGroup";
-            TrayIconSettingsGroup.Size = new Size(309, 89);
+            TrayIconSettingsGroup.Size = new Size(182, 103);
             TrayIconSettingsGroup.TabIndex = 15;
             TrayIconSettingsGroup.TabStop = false;
-            TrayIconSettingsGroup.Text = "Tray";
+            TrayIconSettingsGroup.Text = "Tray Icon";
             // 
             // IconThemePicker
             // 
@@ -293,10 +297,10 @@
             IconThemePicker.AutoCompleteSource = AutoCompleteSource.ListItems;
             IconThemePicker.FormattingEnabled = true;
             IconThemePicker.Items.AddRange(new object[] { "Horizontal", "Horizontal Light", "Vertical", "Vertical Light", "Combined", "Combined Light", "Text", "Text Light", "Icon" });
-            IconThemePicker.Location = new Point(85, 43);
+            IconThemePicker.Location = new Point(10, 65);
             IconThemePicker.MaxDropDownItems = 32;
             IconThemePicker.Name = "IconThemePicker";
-            IconThemePicker.Size = new Size(218, 23);
+            IconThemePicker.Size = new Size(162, 23);
             IconThemePicker.TabIndex = 13;
             toolTip1.SetToolTip(IconThemePicker, "What the style of the tray icon should be.");
             // 
@@ -305,14 +309,14 @@
             label7.AutoSize = true;
             label7.Location = new Point(6, 47);
             label7.Name = "label7";
-            label7.Size = new Size(69, 15);
+            label7.Size = new Size(43, 15);
             label7.TabIndex = 8;
-            label7.Text = "Icon Theme";
+            label7.Text = "Theme";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(328, 314);
+            label4.Location = new Point(191, 314);
             label4.Name = "label4";
             label4.Size = new Size(198, 15);
             label4.TabIndex = 16;
@@ -329,15 +333,52 @@
             toolTip1.UseAnimation = false;
             toolTip1.UseFading = false;
             // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(6, 31);
+            label8.Name = "label8";
+            label8.Size = new Size(42, 15);
+            label8.TabIndex = 14;
+            label8.Text = "Device";
+            toolTip1.SetToolTip(label8, "What device the program should use for measuring");
+            // 
+            // DevicePicker
+            // 
+            DevicePicker.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            DevicePicker.AutoCompleteSource = AutoCompleteSource.ListItems;
+            DevicePicker.FormattingEnabled = true;
+            DevicePicker.Items.AddRange(new object[] { "(First Sensor)" });
+            DevicePicker.Location = new Point(51, 27);
+            DevicePicker.MaxDropDownItems = 32;
+            DevicePicker.Name = "DevicePicker";
+            DevicePicker.Size = new Size(121, 23);
+            DevicePicker.TabIndex = 13;
+            toolTip1.SetToolTip(DevicePicker, "What device the program should use for measuring");
+            // 
             // colorDialog1
             // 
             colorDialog1.AnyColor = true;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(label8);
+            groupBox1.Controls.Add(DevicePicker);
+            groupBox1.Controls.Add(label6);
+            groupBox1.Controls.Add(SensorPicker);
+            groupBox1.Location = new Point(217, 203);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(182, 99);
+            groupBox1.TabIndex = 17;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Sensors";
             // 
             // SettingsPage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(538, 340);
+            ClientSize = new Size(412, 340);
+            Controls.Add(groupBox1);
             Controls.Add(label4);
             Controls.Add(TrayIconSettingsGroup);
             Controls.Add(MeasurementSettingsGroup);
@@ -359,6 +400,8 @@
             MeasurementSettingsGroup.PerformLayout();
             TrayIconSettingsGroup.ResumeLayout(false);
             TrayIconSettingsGroup.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -390,5 +433,8 @@
         private Label label7;
         private ColorDialog colorDialog1;
         private ComboBox IconThemePicker;
+        private GroupBox groupBox1;
+        private Label label8;
+        private ComboBox DevicePicker;
     }
 }

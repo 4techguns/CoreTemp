@@ -63,41 +63,54 @@ namespace monitor
                 Show();
             };
 
-            for (int i = 0; i < Settings.Default.GraphResolution; i++)
-            {
-                chart1.Series[0].Points.AddY(0);
-            }
+            ClearGraph();
         }
 
         private void SettingsChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "UpdateInterval") RefreshTimer.Interval = Settings.Default.UpdateInterval;
+            if (e.PropertyName == "GraphResolution") ClearGraph();
+            if (e.PropertyName == "SensorToMeasure") ClearGraph();
+            if (e.PropertyName == "DeviceToMeasure") ClearGraph();
         }
 
         private void TimerRefresh(object? sender, EventArgs e)
         {
             UpdateInfo();
         }
+        private void ClearGraph()
+        {
+            chart1.Series[0].Points.Clear();
+            for (int i = 0; i < Settings.Default.GraphResolution; i++)
+                chart1.Series[0].Points.AddY(0);
+        }
 
         public void UpdateInfo()
         {
             _computer.Accept(new UpdateVisitor());
-            var sensor = _computer.Hardware[0].Sensors.First(s => s.SensorType == SensorType.Temperature);
+
+            var hw = _computer.Hardware;
+            IHardware? n = null;
+
+            ISensor? sensor = null;
             try
             {
+                if (Settings.Default.DeviceToMeasure == "(First CPU)")
+                    n = hw.First(w => w.HardwareType == HardwareType.Cpu);
+                else
+                    n = hw.First(w => w.Name == Settings.Default.DeviceToMeasure);
+
                 if (Settings.Default.SensorToMeasure != "(First Sensor)")
-                    sensor = _computer.Hardware[0].Sensors.First(s => s.SensorType == SensorType.Temperature && s.Name == Settings.Default.SensorToMeasure);
+                    sensor = n.Sensors.First(s => s.SensorType == SensorType.Temperature && s.Name == Settings.Default.SensorToMeasure);
+                else
+                    sensor = n.Sensors.First(s => s.SensorType == SensorType.Temperature);
             }
             catch (Exception e)
             {
                 RefreshTimer.Stop();
-                var res = MessageBox.Show($"Could not read from sensor \"{Settings.Default.SensorToMeasure}\". Would you like to reset settings to defaults and exit?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
-                if (res == DialogResult.Yes)
-                {
-                    Settings.Default.Reset();
-                    Environment.Exit(0);
-                }
-                else RefreshTimer.Start();
+                var res = MessageBox.Show($"Could not read from sensor \"{Settings.Default.SensorToMeasure}\" on hardware \"{n.Name}\". (hardware/sensor not found?) Press OK to close and reset settings to defaults.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Settings.Default.Reset();
+                Environment.Exit(0);
 
             }
             var _tempColor = sensor.Value switch
@@ -120,7 +133,7 @@ namespace monitor
             }
 
 
-            HardwareNameLabel.Text = _computer.Hardware[0].Name;
+            HardwareNameLabel.Text = n.Name;
             SensorNameLabel.Text = $"Sensor: {sensor.Name}";
             TempLabel.Text = $"{Math.Round((double)sensor.Value)}℃";
 

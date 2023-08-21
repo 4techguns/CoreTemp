@@ -142,5 +142,17 @@ namespace monitor {
                 this["TrayTheme"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("(First CPU)")]
+        public string DeviceToMeasure {
+            get {
+                return ((string)(this["DeviceToMeasure"]));
+            }
+            set {
+                this["DeviceToMeasure"] = value;
+            }
+        }
     }
 }

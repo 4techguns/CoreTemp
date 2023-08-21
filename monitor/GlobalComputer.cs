@@ -11,7 +11,14 @@ namespace monitor
     {
         public static Computer Computer = new Computer
         {
-            IsCpuEnabled = true
+            IsCpuEnabled = true,
+            IsBatteryEnabled = true,
+            IsGpuEnabled = true,
+            IsMemoryEnabled = true,
+            IsMotherboardEnabled = true,
+            IsPsuEnabled = true,
+            IsStorageEnabled = true,
+            IsControllerEnabled = true
         };
     }
 

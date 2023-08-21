@@ -32,5 +32,8 @@
     <Setting Name="TrayTheme" Type="System.String" Scope="User">
       <Value Profile="(Default)">Vertical</Value>
     </Setting>
+    <Setting Name="DeviceToMeasure" Type="System.String" Scope="User">
+      <Value Profile="(Default)">(First CPU)</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

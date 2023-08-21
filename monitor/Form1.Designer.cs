@@ -97,62 +97,64 @@
             // 
             TrayContextMenu.Items.AddRange(new ToolStripItem[] { coreTempAlphaV1ToolStripMenuItem, exitToolStripMenuItem });
             TrayContextMenu.Name = "TrayContextMenu";
-            TrayContextMenu.Size = new Size(181, 70);
+            TrayContextMenu.Size = new Size(144, 48);
             // 
             // coreTempAlphaV1ToolStripMenuItem
             // 
             coreTempAlphaV1ToolStripMenuItem.Enabled = false;
             coreTempAlphaV1ToolStripMenuItem.Name = "coreTempAlphaV1ToolStripMenuItem";
-            coreTempAlphaV1ToolStripMenuItem.Size = new Size(180, 22);
-            coreTempAlphaV1ToolStripMenuItem.Text = "CoreTemp Alpha v2";
+            coreTempAlphaV1ToolStripMenuItem.Size = new Size(143, 22);
+            coreTempAlphaV1ToolStripMenuItem.Text = "CoreTemp v3";
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Image = Properties.Resources.cross;
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(180, 22);
+            exitToolStripMenuItem.Size = new Size(143, 22);
             exitToolStripMenuItem.Text = "Exit";
             // 
             // HardwareNameLabel
             // 
-            HardwareNameLabel.AutoSize = true;
-            HardwareNameLabel.Location = new Point(12, 269);
+            HardwareNameLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            HardwareNameLabel.Location = new Point(359, 12);
             HardwareNameLabel.Name = "HardwareNameLabel";
-            HardwareNameLabel.Size = new Size(118, 15);
+            HardwareNameLabel.Size = new Size(388, 28);
             HardwareNameLabel.TabIndex = 3;
             HardwareNameLabel.Text = "HardwareNameLabel";
+            HardwareNameLabel.TextAlign = ContentAlignment.MiddleRight;
             // 
             // SensorNameLabel
             // 
-            SensorNameLabel.AutoSize = true;
-            SensorNameLabel.Location = new Point(12, 293);
+            SensorNameLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            SensorNameLabel.Location = new Point(359, 40);
             SensorNameLabel.Name = "SensorNameLabel";
-            SensorNameLabel.Size = new Size(65, 15);
+            SensorNameLabel.Size = new Size(388, 30);
             SensorNameLabel.TabIndex = 4;
             SensorNameLabel.Text = "Sensor: (...)";
+            SensorNameLabel.TextAlign = ContentAlignment.MiddleRight;
             // 
             // TempLabel
             // 
             TempLabel.AutoSize = true;
-            TempLabel.Font = new Font("Segoe UI", 48F, FontStyle.Regular, GraphicsUnit.Point);
-            TempLabel.Location = new Point(12, 308);
+            TempLabel.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point);
+            TempLabel.Location = new Point(82, 12);
             TempLabel.Name = "TempLabel";
-            TempLabel.Size = new Size(143, 86);
+            TempLabel.Size = new Size(73, 45);
             TempLabel.TabIndex = 5;
             TempLabel.Text = "...℃";
             TempLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // chart1
             // 
-            chart1.BackColor = SystemColors.Window;
+            chart1.BackColor = SystemColors.Control;
             chartArea1.AxisX.IsMarginVisible = false;
             chartArea1.AxisY.Maximum = 100D;
             chartArea1.AxisY.Minimum = 0D;
             chartArea1.AxisY.Title = "Temperature";
-            chartArea1.BackColor = Color.Silver;
+            chartArea1.BackColor = SystemColors.ControlDark;
             chartArea1.Name = "ChartArea1";
             chart1.ChartAreas.Add(chartArea1);
-            chart1.Location = new Point(252, 12);
+            chart1.Location = new Point(12, 99);
             chart1.Margin = new Padding(0);
             chart1.Name = "chart1";
             chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
@@ -165,7 +167,7 @@
             series1.YValuesPerPoint = 2;
             series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             chart1.Series.Add(series1);
-            chart1.Size = new Size(495, 392);
+            chart1.Size = new Size(735, 288);
             chart1.TabIndex = 6;
             chart1.Text = "chart1";
             // 
@@ -175,14 +177,14 @@
             StatusIcon.InitialImage = (Image)resources.GetObject("StatusIcon.InitialImage");
             StatusIcon.Location = new Point(12, 12);
             StatusIcon.Name = "StatusIcon";
-            StatusIcon.Size = new Size(128, 128);
+            StatusIcon.Size = new Size(64, 64);
             StatusIcon.SizeMode = PictureBoxSizeMode.StretchImage;
             StatusIcon.TabIndex = 7;
             StatusIcon.TabStop = false;
             // 
             // SettingsButton
             // 
-            SettingsButton.Location = new Point(146, 12);
+            SettingsButton.Location = new Point(672, 73);
             SettingsButton.Name = "SettingsButton";
             SettingsButton.Size = new Size(75, 23);
             SettingsButton.TabIndex = 8;
@@ -191,18 +193,18 @@
             // 
             // TemperatureStatus
             // 
-            TemperatureStatus.Location = new Point(12, 163);
+            TemperatureStatus.Location = new Point(182, 12);
             TemperatureStatus.Name = "TemperatureStatus";
-            TemperatureStatus.Size = new Size(128, 57);
+            TemperatureStatus.Size = new Size(128, 45);
             TemperatureStatus.TabIndex = 9;
             TemperatureStatus.Text = "???";
             TemperatureStatus.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // tempBar
             // 
-            tempBar.Location = new Point(12, 146);
+            tempBar.Location = new Point(82, 66);
             tempBar.Name = "tempBar";
-            tempBar.Size = new Size(128, 14);
+            tempBar.Size = new Size(228, 10);
             tempBar.Style = ProgressBarStyle.Continuous;
             tempBar.TabIndex = 10;
             tempBar.Value = 20;
