@@ -5,7 +5,7 @@
 
 A piece of software that just measures your CPU temperature. Used to be a project only for me, but is now released to the public
 
-![A screenshot of CoreTemp](https://github.com/4techguns/CoreTemp/assets/42378704/10f5754c-3dd0-4492-bf9b-3f1149d30f2e)
+![A screenshot of CoreTemp](https://github.com/4techguns/CoreTemp/assets/42378704/e264571b-e08e-41c8-8ecb-5b7f6d7f6577)
 
 Reminder: This is unfinished software. Expect less-than-normal behaviour.
 
@@ -15,7 +15,7 @@ Reminder: This is unfinished software. Expect less-than-normal behaviour.
 CoreTemp provides a tray icon, a neat graph that shows the temperature over time, and warning/critical notifications
 
 ### Q: What CPUs are supported?
-Most AMD and Intel processors *should* be supported. This program was only tested on a small range of AMD and Intel processors, so compatibility isn't always guaranteed
+Most x86-based processors (possibly ARM processors, untested) *should* be supported. This program was only tested on a small range of AMD and Intel processors, so compatibility isn't always guaranteed
 
 ### Q: Can I disable the high temperature notifications/tray icon?
 Yes. These have been disabled by default and can now be toggled as of 2.0
