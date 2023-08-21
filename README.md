@@ -18,7 +18,7 @@ CoreTemp provides a tray icon, a neat graph that shows the temperature over time
 Most AMD and Intel processors *should* be supported. This program was only tested on a small range of AMD and Intel processors, so compatibility isn't always guaranteed
 
 ### Q: Can I disable the high temperature notifications/tray icon?
-At the moment, no, but the ability to disable them will be added in a later version. As a workaround until I stop procrastinating a new version, you can set the threshold for the notifications to their highest possible values and effectively disable them
+Yes. These have been disabled by default and can now be toggled as of 2.0
 
 ### Q: Your code sucks
 I know. ~~Wait that's not even a question~~
@@ -35,5 +35,6 @@ If the message is "Nullable object must have a value", make sure you run the app
 
 ## Stolen homework aka credits
 - [LibreHardwareMonitor library](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor)
+- [.NET 6 port of the data visualisation library from .NET Framework](https://www.nuget.org/packages/WinForms.DataVisualization)
 - Parts of the Silk icon set (I believe the link to the original set is dead and I don't wanna be sued so I'm crediting them regardless)
 - My motivation to even write a README in the first place
