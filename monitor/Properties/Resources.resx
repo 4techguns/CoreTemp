@@ -118,25 +118,37 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="confusedcpu" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\confusedcpu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="nicecpu" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\nicecpu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="critical" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\critical.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="cross" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\cross.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="poorcpu" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\poorcpu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ripcpu" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\ripcpu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="critical" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\critical.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="warning" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\warning.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="o_cold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\OverlayImages\o_cold.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="o_fire" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\OverlayImages\o_fire.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="o_hot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\OverlayImages\o_hot.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="o_unknown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\OverlayImages\o_unknown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="u_cpu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\UnderlayImages\u_cpu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="u_gpu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\UnderlayImages\u_gpu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="u_nvme" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\UnderlayImages\u_nvme.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="u_unknown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\UnderlayImages\u_unknown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

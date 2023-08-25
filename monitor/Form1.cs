@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
-using static System.Windows.Forms.AxHost;
 using Computer = LibreHardwareMonitor.Hardware.Computer;
 
 namespace monitor
@@ -17,6 +16,7 @@ namespace monitor
         public static Computer _computer;
         private bool _warningTripped = false;
         private bool _critTripped = false;
+        private Graphics _icon;
         private Form s;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
@@ -64,6 +64,8 @@ namespace monitor
             };
 
             ClearGraph();
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            _icon = StatusIcon.CreateGraphics();
         }
 
         private void SettingsChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -87,6 +89,7 @@ namespace monitor
 
         public void UpdateInfo()
         {
+            _icon.Clear(StatusIcon.BackColor);
             _computer.Accept(new UpdateVisitor());
 
             var hw = _computer.Hardware;
@@ -150,12 +153,32 @@ namespace monitor
                 > 0 => "Probably freezing",
             };
 
-            StatusIcon.Image = sensor.Value switch
-            {
-                > 80 => Resources.ripcpu,
-                > 50 => Resources.poorcpu,
-                > 0 => Resources.nicecpu
-            };
+            _icon.DrawImage(
+                n.HardwareType switch
+                {
+                    HardwareType.Cpu => Resources.u_cpu,
+                    HardwareType.Cooler => Resources.u_cpu,
+                    HardwareType.Storage => Resources.u_nvme,
+                    HardwareType.GpuIntel => Resources.u_gpu,
+                    HardwareType.GpuNvidia => Resources.u_gpu,
+                    HardwareType.GpuAmd => Resources.u_gpu,
+                    _ => Resources.u_unknown
+                },
+                new Rectangle(0, 0, 64, 64)
+            );
+
+            _icon.DrawImage(
+                sensor.Value switch
+                {
+                    > 80 => Resources.o_fire,
+                    > 50 => Resources.o_hot,
+                    > 0 => Resources.o_cold,
+                    _ => Resources.o_unknown
+                },
+                new Rectangle(0, 0, 64, 64)
+            );
+
+
 
             tempBar.Value = (int)sensor.Value;
             TemperatureStatus.BackColor = _tempColor;
@@ -224,7 +247,7 @@ namespace monitor
                                     else if (_warningTripped) g.DrawImage(Resources.warning, new RectangleF(0, 0, 6, 6));
                                     break;
                                 case "Icon":
-                                    g.DrawImage(Resources.poorcpu, new Rectangle(0, 0, 16, 16));
+                                    g.DrawImage(Resources.u_cpu, new Rectangle(0, 0, 16, 16));
                                     if (_critTripped) g.DrawImage(Resources.critical, new RectangleF(0, 0, 6, 6));
                                     else if (_warningTripped) g.DrawImage(Resources.warning, new RectangleF(0, 0, 6, 6));
                                     break;

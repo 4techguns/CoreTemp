@@ -63,16 +63,6 @@ namespace monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap confusedcpu {
-            get {
-                object obj = ResourceManager.GetObject("confusedcpu", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap critical {
             get {
                 object obj = ResourceManager.GetObject("critical", resourceCulture);
@@ -93,9 +83,9 @@ namespace monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap nicecpu {
+        internal static System.Drawing.Bitmap o_cold {
             get {
-                object obj = ResourceManager.GetObject("nicecpu", resourceCulture);
+                object obj = ResourceManager.GetObject("o_cold", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +93,9 @@ namespace monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap poorcpu {
+        internal static System.Drawing.Bitmap o_fire {
             get {
-                object obj = ResourceManager.GetObject("poorcpu", resourceCulture);
+                object obj = ResourceManager.GetObject("o_fire", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +103,59 @@ namespace monitor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ripcpu {
+        internal static System.Drawing.Bitmap o_hot {
             get {
-                object obj = ResourceManager.GetObject("ripcpu", resourceCulture);
+                object obj = ResourceManager.GetObject("o_hot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap o_unknown {
+            get {
+                object obj = ResourceManager.GetObject("o_unknown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap u_cpu {
+            get {
+                object obj = ResourceManager.GetObject("u_cpu", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap u_gpu {
+            get {
+                object obj = ResourceManager.GetObject("u_gpu", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap u_nvme {
+            get {
+                object obj = ResourceManager.GetObject("u_nvme", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap u_unknown {
+            get {
+                object obj = ResourceManager.GetObject("u_unknown", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

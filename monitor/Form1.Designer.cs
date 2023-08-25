@@ -44,14 +44,13 @@
             SensorNameLabel = new Label();
             TempLabel = new Label();
             chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            StatusIcon = new PictureBox();
             SettingsButton = new Button();
             TemperatureStatus = new Label();
             tempBar = new ProgressBar();
+            StatusIcon = new Panel();
             statusStrip1.SuspendLayout();
             TrayContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)StatusIcon).BeginInit();
             SuspendLayout();
             // 
             // RefreshTimer
@@ -97,20 +96,20 @@
             // 
             TrayContextMenu.Items.AddRange(new ToolStripItem[] { coreTempAlphaV1ToolStripMenuItem, exitToolStripMenuItem });
             TrayContextMenu.Name = "TrayContextMenu";
-            TrayContextMenu.Size = new Size(144, 48);
+            TrayContextMenu.Size = new Size(153, 48);
             // 
             // coreTempAlphaV1ToolStripMenuItem
             // 
             coreTempAlphaV1ToolStripMenuItem.Enabled = false;
             coreTempAlphaV1ToolStripMenuItem.Name = "coreTempAlphaV1ToolStripMenuItem";
-            coreTempAlphaV1ToolStripMenuItem.Size = new Size(143, 22);
-            coreTempAlphaV1ToolStripMenuItem.Text = "CoreTemp v3";
+            coreTempAlphaV1ToolStripMenuItem.Size = new Size(152, 22);
+            coreTempAlphaV1ToolStripMenuItem.Text = "CoreTemp v3.5";
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Image = Properties.Resources.cross;
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(143, 22);
+            exitToolStripMenuItem.Size = new Size(152, 22);
             exitToolStripMenuItem.Text = "Exit";
             // 
             // HardwareNameLabel
@@ -171,17 +170,6 @@
             chart1.TabIndex = 6;
             chart1.Text = "chart1";
             // 
-            // StatusIcon
-            // 
-            StatusIcon.Image = Properties.Resources.confusedcpu;
-            StatusIcon.InitialImage = (Image)resources.GetObject("StatusIcon.InitialImage");
-            StatusIcon.Location = new Point(12, 12);
-            StatusIcon.Name = "StatusIcon";
-            StatusIcon.Size = new Size(64, 64);
-            StatusIcon.SizeMode = PictureBoxSizeMode.StretchImage;
-            StatusIcon.TabIndex = 7;
-            StatusIcon.TabStop = false;
-            // 
             // SettingsButton
             // 
             SettingsButton.Location = new Point(672, 73);
@@ -209,15 +197,22 @@
             tempBar.TabIndex = 10;
             tempBar.Value = 20;
             // 
+            // StatusIcon
+            // 
+            StatusIcon.Location = new Point(12, 12);
+            StatusIcon.Name = "StatusIcon";
+            StatusIcon.Size = new Size(64, 64);
+            StatusIcon.TabIndex = 12;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(759, 416);
+            Controls.Add(StatusIcon);
             Controls.Add(tempBar);
             Controls.Add(TemperatureStatus);
             Controls.Add(SettingsButton);
-            Controls.Add(StatusIcon);
             Controls.Add(chart1);
             Controls.Add(TempLabel);
             Controls.Add(SensorNameLabel);
@@ -232,7 +227,6 @@
             statusStrip1.PerformLayout();
             TrayContextMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)StatusIcon).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -245,7 +239,6 @@
         private Label SensorNameLabel;
         private Label TempLabel;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private PictureBox StatusIcon;
         private Button SettingsButton;
         private ContextMenuStrip TrayContextMenu;
         private ToolStripMenuItem coreTempAlphaV1ToolStripMenuItem;
@@ -254,5 +247,6 @@
         private ToolStripStatusLabel CritIcon;
         private Label TemperatureStatus;
         private ProgressBar tempBar;
+        private Panel StatusIcon;
     }
 }
